@@ -1,7 +1,12 @@
 .PHONY: all test try-luajit try-lua
 
-all:
+all: dist
+
+dist:
 	./util/mirror-tarballs
+
+deb: dist
+	./util/make-deb
 
 test: all
 	prove -r t
