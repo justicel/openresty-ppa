@@ -6,8 +6,8 @@
 
 Name:		ngx_openresty
 
-Version:	1.0.5.1
-Release:	5
+Version:	1.4.2
+Release:	9
 Summary:	nginx for openresty
 
 Group:		Productivity/Networking/Web/Servers
@@ -19,7 +19,7 @@ Source0:	ngx_openresty-%{version}rc%{release}.tar.gz
 BuildRoot:	%{build_root}
 
 AutoReqProv:    no
-BuildRequires:	gcc >= 3.0, openssl-devel, pcre-devel, readline-devel
+BuildRequires:	gcc >= 4.6, openssl-devel, pcre-devel, readline-devel
 Requires:	openssl, pcre, readline
 
 %description
@@ -63,6 +63,9 @@ rm -rf $RPM_BUILD_ROOT
 #%doc
 
 %changelog
+* Sat Oct 04 2013 Hiroshi Miura <miurahr@linux.com>
+- update for recent upstream.
+
 * Wed Aug 24 2011 liseen <liseen.wan@gmail.com>
 - initial packaging
 
