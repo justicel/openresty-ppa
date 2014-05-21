@@ -12,7 +12,6 @@
 override_dh_auto_configure:
 	./configure \
 	--prefix=/usr/lib/openresty \
-	--ngx_prefix=/usr/share/openresty \
 	--sbin-path=/usr/sbin/openresty \
 	--conf-path=/etc/openresty/nginx.conf \
 	--error-log-path=/var/log/openresty/error.log \
