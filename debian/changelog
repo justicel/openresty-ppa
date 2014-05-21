@@ -2,7 +2,7 @@ openresty (1.5.12.1) unstable; urgency=low
 
   * New upstream v1.5.12.1 release.
 
- -- Jason Staten <jstaten@peer60.com>  Wed, 21 May 2013 21:28:06 +0000
+ -- Jason Staten (peer60) <jstaten@peer60.com>  Wed, 21 May 2013 21:28:06 +0000
 
 openresty (1.4.2.9) unstable; urgency=low
 
