@@ -1,7 +1,7 @@
 Source: openresty
 Section: httpd
 Priority: optional
-Maintainer: Hiroshi Miura <miurahr@linux.com>
+Maintainer: Jason Staten <jstaten@peer60.com>
 Build-Depends: autotools-dev,
                debhelper (>= 8.0.0),
                dpkg-dev (>= 1.15.5),
@@ -19,8 +19,8 @@ Build-Depends: autotools-dev,
                zlib1g-dev
 Standards-Version: 3.9.2
 Homepage: http://openresty.org/
-#Vcs-Git: git://git.debian.org/collab-maint/openresty.git
-#Vcs-Browser: http://git.debian.org/?p=collab-maint/openresty.git;a=summary
+Vcs-Git: git://github.com/statianzo/ngx_openresty.git
+Vcs-Browser: https://github.com/statianzo/ngx_openresty
 
 Package: openresty
 Architecture: any
