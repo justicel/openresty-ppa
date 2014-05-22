@@ -1,3 +1,9 @@
+openresty (1.5.12.1-0ubuntu1~trusty1) trusty; urgency=low
+
+  * Versioned for ubuntu
+
+ -- Jason Staten (peer60) <jstaten@peer60.com>  Wed, 21 May 2013 23:28:06 +0000
+
 openresty (1.5.12.1) unstable; urgency=low
 
   * New upstream v1.5.12.1 release.

@@ -8,6 +8,9 @@ dist:
 deb: dist
 	./util/make-deb
 
+source: dist
+	./util/make-source-deb
+
 test: all
 	prove -r t
 
