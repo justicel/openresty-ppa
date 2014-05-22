@@ -19,8 +19,8 @@ Build-Depends: autotools-dev,
                zlib1g-dev
 Standards-Version: 3.9.2
 Homepage: http://openresty.org/
-Vcs-Git: git://github.com/statianzo/ngx_openresty.git
-Vcs-Browser: https://github.com/statianzo/ngx_openresty
+Vcs-Git: git://github.com/statianzo/openresty-ppa.git
+Vcs-Browser: https://github.com/statianzo/openresty-ppa
 
 Package: openresty
 Architecture: any
