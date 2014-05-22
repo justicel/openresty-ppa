@@ -17,4 +17,4 @@ fi
 
 cd $root/$name
 
-debuild -S -sa -i
+debuild -S -sa -tc -i
