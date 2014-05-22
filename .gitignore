@@ -70,3 +70,7 @@ work/
 reindex
 t/*.t_
 upload
+*.dsc
+*.build
+*.changes
+*.upload
