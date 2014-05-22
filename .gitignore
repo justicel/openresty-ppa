@@ -74,3 +74,4 @@ upload
 *.build
 *.changes
 *.upload
+.vagrant
