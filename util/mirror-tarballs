@@ -112,9 +112,12 @@ fi
 
 #patch -p1 < $root/patches/nginx-$main_ver-gzip_ok_invalid_read_fix.patch || exit 1
 
-echo "$info_txt applying the location_if_inherits_proxy patch for nginx"
-patch -p1 < $root/patches/nginx-$main_ver-location_if_inherits_proxy.patch || exit 1
-echo
+answer=`$root/util/ver-ge "$main_ver" 1.7.9`
+if [ "$answer" = "N" ]; then
+    echo "$info_txt applying the location_if_inherits_proxy patch for nginx"
+    patch -p1 < $root/patches/nginx-$main_ver-location_if_inherits_proxy.patch || exit 1
+    echo
+fi
 
 answer=`$root/util/ver-ge "$main_ver" 1.5.3`
 if [ "$answer" = "N" ]; then
@@ -141,9 +144,12 @@ if [ "$answer" = "N" ]; then
     echo
 fi
 
-echo "$info_txt applying the slab_alloc_no_memory_as_info patch for nginx"
-patch -p1 < $root/patches/nginx-$main_ver-slab_alloc_no_memory_as_info.patch || exit 1
-echo
+answer=`$root/util/ver-ge "$main_ver" 1.5.13`
+if [ "$answer" = "N" ]; then
+    echo "$info_txt applying the slab_alloc_no_memory_as_info patch for nginx"
+    patch -p1 < $root/patches/nginx-$main_ver-slab_alloc_no_memory_as_info.patch || exit 1
+    echo
+fi
 
 answer=`$root/util/ver-ge "$main_ver" 1.2.7`
 if [ "$answer" = "N" ]; then
@@ -201,9 +207,12 @@ if [ "$answer" = "N" ]; then
     echo
 fi
 
-echo "$info_txt applying the cache_lock_hang_in_subreq patch for nginx $ver"
-patch -p1 < $root/patches/nginx-$ver-cache_lock_hang_in_subreq.patch || exit 1
-echo
+answer=`$root/util/ver-ge "$main_ver" 1.7.8`
+if [ "$answer" = "N" ]; then
+    echo "$info_txt applying the cache_lock_hang_in_subreq patch for nginx $ver"
+    patch -p1 < $root/patches/nginx-$ver-cache_lock_hang_in_subreq.patch || exit 1
+    echo
+fi
 
 echo "$info_txt applying the proxy_host_port_vars patch for nginx $ver"
 patch -p1 < $root/patches/nginx-$ver-proxy_host_port_vars.patch || exit 1
@@ -212,6 +221,20 @@ echo
 echo "$info_txt applying the cache_manager_exit patch for nginx $ver"
 patch -p1 < $root/patches/nginx-$ver-cache_manager_exit.patch || exit 1
 echo
+
+answer=`$root/util/ver-ge "$main_ver" 1.7.4`
+if [ "$answer" = "N" ]; then
+    echo "$info_txt applying the proxy_ssl_handshake_timer patch for nginx $ver"
+    patch -p1 < $root/patches/nginx-$ver-proxy_ssl_handshake_timer.patch || exit 1
+    echo
+fi
+
+answer=`$root/util/ver-ge "$main_ver" 1.7.4`
+if [ "$answer" = "N" ]; then
+    echo "$info_txt applying the geoip_init_var_fields patch for nginx $ver"
+    patch -p1 < $root/patches/nginx-$ver-geoip_init_var_fields.patch || exit 1
+    echo
+fi
 
 answer=`$root/util/ver-ge "$main_ver" 1.4.4`
 if [ "$answer" = "N" ]; then
@@ -228,6 +251,13 @@ echo "$info_txt applying the pcre_conf_opt patch for nginx $ver"
 patch -p1 < $root/patches/nginx-$ver-pcre_conf_opt.patch || exit 1
 echo
 
+answer=`$root/util/ver-ge "$main_ver" 1.9.2`
+if [ "$answer" = "N" ]; then
+    echo "$info_txt applying the upstream_filter_finalize patch for nginx"
+    patch -p1 < $root/patches/nginx-$main_ver-upstream_filter_finalize.patch || exit 1
+    echo
+fi
+
 answer=`$root/util/ver-ge "$main_ver" 1.5.9`
 if [ "$answer" = "N" ]; then
     echo "$info_txt applying the resolve-names-with-a-trailing-dot patch for nginx $ver"
@@ -235,9 +265,33 @@ if [ "$answer" = "N" ]; then
     echo
 fi
 
-echo "$info_txt applying the setting_args_invalidates_uri patch for nginx $ver"
-patch -p1 < $root/patches/nginx-$ver-setting_args_invalidates_uri.patch || exit 1
-echo
+answer=`$root/util/ver-ge "$main_ver" 1.7.1`
+if [ "$answer" = "N" ]; then
+    echo "$info_txt applying the setting_args_invalidates_uri patch for nginx $ver"
+    patch -p1 < $root/patches/nginx-$ver-setting_args_invalidates_uri.patch || exit 1
+    echo
+fi
+
+answer=`$root/util/ver-ge "$main_ver" 1.7.2`
+if [ "$answer" = "N" ]; then
+    echo "$info_txt applying the slab_defrag patch for nginx"
+    patch -p1 < $root/patches/nginx-$main_ver-slab_defrag.patch || exit 1
+    echo
+fi
+
+answer=`$root/util/ver-ge "$main_ver" 1.7.8`
+if [ "$answer" = "N" ]; then
+    echo "$info_txt applying the resolver_del_event_invalid_read patch for nginx"
+    patch -p1 < $root/patches/nginx-$main_ver-resolver_del_event_invalid_read.patch || exit 1
+    echo
+fi
+
+answer=`$root/util/ver-ge "$main_ver" 1.7.7`
+if [ "$answer" = "N" ]; then
+    echo "$info_txt applying the hash_overflow patch for nginx"
+    patch -p1 < $root/patches/nginx-$main_ver-hash_overflow.patch || exit 1
+    echo
+fi
 
 rm -f *.patch || exit 1
 
@@ -252,14 +306,14 @@ rm -rf no-pool-nginx-$ver
 
 #################################
 
-ver=0.53
+ver=0.58
 $root/util/get-tarball "https://github.com/openresty/echo-nginx-module/tarball/v$ver" -O echo-nginx-module-$ver.tar.gz || exit 1
 tar -xzf echo-nginx-module-$ver.tar.gz || exit 1
 mv openresty-echo-nginx-module-* echo-nginx-module-$ver || exit 1
 
 #################################
 
-ver=0.04
+ver=0.05
 $root/util/get-tarball "https://github.com/openresty/xss-nginx-module/tarball/v$ver" -O xss-nginx-module-$ver.tar.gz || exit 1
 tar -xzf xss-nginx-module-$ver.tar.gz || exit 1
 mv openresty-xss-nginx-module-* xss-nginx-module-$ver || exit 1
@@ -273,91 +327,91 @@ mv simpl-ngx_devel_kit-* ngx_devel_kit-$ver || exit 1
 
 #################################
 
-ver=0.24
+ver=0.29
 $root/util/get-tarball "https://github.com/openresty/set-misc-nginx-module/tarball/v$ver" -O set-misc-nginx-module-$ver.tar.gz || exit 1
 tar -xzf set-misc-nginx-module-$ver.tar.gz || exit 1
 mv openresty-set-misc-nginx-module-* set-misc-nginx-module-$ver || exit 1
 
 #################################
 
-ver=0.13
+ver=0.14
 $root/util/get-tarball "https://github.com/openresty/rds-json-nginx-module/tarball/v$ver" -O rds-json-nginx-module-$ver.tar.gz || exit 1
 tar -xzf rds-json-nginx-module-$ver.tar.gz || exit 1
 mv openresty-rds-json-nginx-module-* rds-json-nginx-module-$ver || exit 1
 
 #################################
 
-ver=0.05
+ver=0.06
 $root/util/get-tarball "https://github.com/openresty/rds-csv-nginx-module/tarball/v$ver" -O rds-csv-nginx-module-$ver.tar.gz || exit 1
 tar -xzf rds-csv-nginx-module-$ver.tar.gz || exit 1
 mv openresty-rds-csv-nginx-module-* rds-csv-nginx-module-$ver || exit 1
 
 #################################
 
-ver=0.25
+ver=0.26
 $root/util/get-tarball "https://github.com/openresty/headers-more-nginx-module/tarball/v$ver" -O headers-more-nginx-module-$ver.tar.gz || exit 1
 tar -xzf headers-more-nginx-module-$ver.tar.gz || exit 1
 mv openresty-headers-more-nginx-module-* headers-more-nginx-module-$ver || exit 1
 
 #################################
 
-ver=0.1.7
+ver=0.1.9
 $root/util/get-tarball "https://github.com/openresty/drizzle-nginx-module/tarball/v$ver" -O drizzle-nginx-module-$ver.tar.gz || exit 1
 tar -xzf drizzle-nginx-module-$ver.tar.gz || exit 1
 mv openresty-drizzle-nginx-module-* drizzle-nginx-module-$ver || exit 1
 
 #################################
 
-ver=0.9.7
+ver=0.9.16
 $root/util/get-tarball "https://github.com/openresty/lua-nginx-module/tarball/v$ver" -O lua-nginx-module-$ver.tar.gz || exit 1
 tar -xzf lua-nginx-module-$ver.tar.gz || exit 1
 mv openresty-lua-nginx-module-* ngx_lua-$ver || exit 1
 
 #################################
 
-ver=0.02
+ver=0.03
 $root/util/get-tarball "https://github.com/openresty/lua-upstream-nginx-module/tarball/v$ver" -O lua-upstream-nginx-module-$ver.tar.gz || exit 1
 tar -xzf lua-upstream-nginx-module-$ver.tar.gz || exit 1
 mv openresty-lua-upstream-nginx-module-* ngx_lua_upstream-$ver || exit 1
 
 #################################
 
-ver=0.03
+ver=0.04
 $root/util/get-tarball "https://github.com/openresty/array-var-nginx-module/tarball/v$ver" -O array-var-nginx-module-$ver.tar.gz || exit 1
 tar -xzf array-var-nginx-module-$ver.tar.gz || exit 1
 mv openresty-array-var-nginx-module-* array-var-nginx-module-$ver || exit 1
 
 #################################
 
-ver=0.14
+ver=0.16
 $root/util/get-tarball "https://github.com/openresty/memc-nginx-module/tarball/v$ver" -O memc-nginx-module-$ver.tar.gz || exit 1
 tar -xzf memc-nginx-module-$ver.tar.gz || exit 1
 mv openresty-memc-nginx-module-* memc-nginx-module-$ver || exit 1
 
 #################################
 
-ver=0.26
+ver=0.30
 $root/util/get-tarball "https://github.com/openresty/srcache-nginx-module/tarball/v$ver" -O srcache-nginx-module-$ver.tar.gz || exit 1
 tar -xzf srcache-nginx-module-$ver.tar.gz || exit 1
 mv openresty-srcache-nginx-module-* srcache-nginx-module-$ver || exit 1
 
 #################################
 
-ver=0.08
+ver=0.11
 $root/util/get-tarball "https://github.com/calio/form-input-nginx-module/tarball/v$ver" -O form-input-nginx-module-$ver.tar.gz || exit 1
 tar -xzf form-input-nginx-module-$ver.tar.gz || exit 1
 mv calio-form-input-nginx-module-* form-input-nginx-module-$ver || exit 1
 
 #################################
 
-ver=0.10
+ver=0.11
 $root/util/get-tarball "https://github.com/calio/iconv-nginx-module/tarball/v$ver" -O iconv-nginx-module-$ver.tar.gz || exit 1
 tar -xzf iconv-nginx-module-$ver.tar.gz || exit 1
 mv calio-iconv-nginx-module-* iconv-nginx-module-$ver || exit 1
 
 #################################
 
-ver=0.03
+ver=0.04
 $root/util/get-tarball "https://github.com/openresty/encrypted-session-nginx-module/tarball/v$ver" -O encrypted-session-nginx-module-$ver.tar.gz || exit 1
 tar -xzf encrypted-session-nginx-module-$ver.tar.gz || exit 1
 mv openresty-encrypted-session-nginx-module-* encrypted-session-nginx-module-$ver || exit 1
@@ -372,13 +426,6 @@ mv openresty-encrypted-session-nginx-module-* encrypted-session-nginx-module-$ve
 
 #################################
 
-ver=0.2
-$root/util/get-tarball "http://mdounin.ru/files/ngx_http_auth_request_module-$ver.tar.gz" -O auth_request-$ver.tar.gz || exit 1
-tar -xzf auth_request-$ver.tar.gz || exit 1
-mv ngx_http_auth_request_module-* auth-request-nginx-module-$ver || exit 1
-
-#################################
-
 ver=0.3.7
 $root/util/get-tarball "http://people.freebsd.org/~osa/ngx_http_redis-$ver.tar.gz" -O redis-nginx-module-$ver.tar.gz || exit 1
 tar -xzf redis-nginx-module-$ver.tar.gz || exit 1
@@ -387,28 +434,40 @@ mv ngx_http_redis-* redis-nginx-module-$ver || exit 1
 cd redis-nginx-module-$ver
 echo "applying ngx_http_redis-$ver-variables_in_redis_pass.patch"
 patch -p1 < $root/patches/ngx_http_redis-$ver-variables_in_redis_pass.patch || exit 1
+echo
+
+echo "applying ngx_http_redis-$ver-without_gzip.patch"
+patch -p1 < $root/patches/ngx_http_redis-$ver-without_gzip.patch || exit 1
+echo
 cd ..
 
 #################################
 
-ver=1.0rc3
+ver=1.0rc7
 $root/util/get-tarball "https://github.com/FRiCKLE/ngx_postgres/tarball/$ver" -O ngx_postgres-$ver.tar.gz || exit 1
 tar -xzf ngx_postgres-$ver.tar.gz || exit 1
 mv FRiCKLE-ngx_postgres-* ngx_postgres-$ver || exit 1
 
 #################################
 
-ver=0.2rc1
+ver=0.2rc3
 $root/util/get-tarball "https://github.com/FRiCKLE/ngx_coolkit/tarball/$ver" -O ngx_coolkit-$ver.tar.gz || exit 1
 tar -xzf ngx_coolkit-$ver.tar.gz || exit 1
 mv FRiCKLE-ngx_coolkit-* ngx_coolkit-$ver || exit 1
 
 #################################
 
-ver=0.11
+ver=0.12
 $root/util/get-tarball "https://github.com/openresty/redis2-nginx-module/tarball/v$ver" -O redis2-nginx-module-$ver.tar.gz || exit 1
 tar -xzf redis2-nginx-module-$ver.tar.gz || exit 1
 mv openresty-redis2-nginx-module-* redis2-nginx-module-$ver || exit 1
+
+#################################
+
+ver=0.03
+$root/util/get-tarball "https://github.com/openresty/resty-cli/tarball/v$ver" -O resty-cli-$ver.tar.gz || exit 1
+tar -xzf resty-cli-$ver.tar.gz || exit 1
+mv openresty-resty-cli-* resty-cli-$ver || exit 1
 
 #################################
 
@@ -438,7 +497,7 @@ echo
 
 #################################
 
-ver=2.1-20140423
+ver=2.1-20150622
 $root/util/get-tarball "https://github.com/openresty/luajit2/archive/v$ver.tar.gz" -O "LuaJIT-$ver.tar.gz" || exit 1
 tar -xzf LuaJIT-$ver.tar.gz || exit 1
 mv luajit2-* LuaJIT-$ver || exit 1
@@ -459,7 +518,7 @@ mv luajit2-* LuaJIT-$ver || exit 1
 
 #################################
 
-ver=2.1.0.1
+ver=2.1.0.2
 $root/util/get-tarball "https://github.com/openresty/lua-cjson/archive/$ver.tar.gz" -O "lua-cjson-$ver.tar.gz" || exit 1
 tar -xzf lua-cjson-$ver.tar.gz || exit 1
 cd lua-cjson-$ver || exit 1
@@ -482,7 +541,7 @@ mv openresty-lua-rds-parser-* lua-rds-parser-$ver || exit 1
 
 #################################
 
-ver=0.11
+ver=0.14
 $root/util/get-tarball "https://github.com/openresty/lua-resty-dns/tarball/v$ver" -O "lua-resty-dns-$ver.tar.gz" || exit 1
 tar -xzf lua-resty-dns-$ver.tar.gz || exit 1
 mv openresty-lua-resty-dns-* lua-resty-dns-$ver || exit 1
@@ -503,7 +562,7 @@ mv openresty-lua-resty-redis-* lua-resty-redis-$ver || exit 1
 
 #################################
 
-ver=0.14
+ver=0.15
 $root/util/get-tarball "https://github.com/openresty/lua-resty-mysql/tarball/v$ver" -O "lua-resty-mysql-$ver.tar.gz" || exit 1
 tar -xzf lua-resty-mysql-$ver.tar.gz || exit 1
 mv openresty-lua-resty-mysql-* lua-resty-mysql-$ver || exit 1
@@ -524,28 +583,35 @@ mv openresty-lua-resty-string-* lua-resty-string-$ver || exit 1
 
 #################################
 
-ver=0.03
+ver=0.05
 $root/util/get-tarball "https://github.com/openresty/lua-resty-websocket/tarball/v$ver" -O "lua-resty-websocket-$ver.tar.gz" || exit 1
 tar -xzf lua-resty-websocket-$ver.tar.gz || exit 1
 mv openresty-lua-resty-websocket-* lua-resty-websocket-$ver || exit 1
 
 #################################
 
-ver=0.03
+ver=0.04
 $root/util/get-tarball "https://github.com/openresty/lua-resty-lock/tarball/v$ver" -O "lua-resty-lock-$ver.tar.gz" || exit 1
 tar -xzf lua-resty-lock-$ver.tar.gz || exit 1
 mv openresty-lua-resty-lock-* lua-resty-lock-$ver || exit 1
 
 #################################
 
-ver=0.0.6
+ver=0.04
+$root/util/get-tarball "https://github.com/openresty/lua-resty-lrucache/tarball/v$ver" -O "lua-resty-lrucache-$ver.tar.gz" || exit 1
+tar -xzf lua-resty-lrucache-$ver.tar.gz || exit 1
+mv openresty-lua-resty-lrucache-* lua-resty-lrucache-$ver || exit 1
+
+#################################
+
+ver=0.1.1
 $root/util/get-tarball "https://github.com/openresty/lua-resty-core/tarball/v$ver" -O "lua-resty-core-$ver.tar.gz" || exit 1
 tar -xzf lua-resty-core-$ver.tar.gz || exit 1
 mv openresty-lua-resty-core-* lua-resty-core-$ver || exit 1
 
 #################################
 
-ver=0.01
+ver=0.03
 $root/util/get-tarball "https://github.com/openresty/lua-resty-upstream-healthcheck/tarball/v$ver" -O "lua-resty-upstream-healthcheck-$ver.tar.gz" || exit 1
 tar -xzf lua-resty-upstream-healthcheck-$ver.tar.gz || exit 1
 mv openresty-lua-resty-upstream-healthcheck-* lua-resty-upstream-healthcheck-$ver || exit 1

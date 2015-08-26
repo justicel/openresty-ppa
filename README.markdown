@@ -40,7 +40,7 @@ For Bundle Maintainers
 
 The bundle's source is at the following git repository:
 
-https://github.com/agentzh/ngx_openresty
+https://github.com/openresty/ngx_openresty
 
 To reproduce the bundle tarball, just do
 
@@ -77,7 +77,7 @@ Copyright & License
 
 The bundle itself is licensed under the 2-clause BSD license.
 
-Copyright (c) 2011-2014, Yichun "agentzh" Zhang (章亦春) <agentzh@gmail.com>, CloudFlare Inc.
+Copyright (c) 2011-2015, Yichun "agentzh" Zhang (章亦春) <agentzh@gmail.com>, CloudFlare Inc.
 
 This module is licensed under the terms of the BSD license.
 
